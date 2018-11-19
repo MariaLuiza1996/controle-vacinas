@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo"> Listagem de Estoque</ui:define>
+        <ui:define name="conteudo">
+            <br/>
+            <h:form id="notaForm" >
+                <p:panel header="Estoque" />
+                <div align="left" >
+                    
+                  <div class="ui-g-12">
+                            <div>
+                                <h:outputLabel value="Unidade Basica de Saúde" for="selectubs"/>
+                            </div>
+                            <div>
+                                <p:selectOneMenu id="selectubs" value="#{estoquevacinaCrudMB.estoqueVacina.ubs}"
+                                                 required="true" requiredMessage="O paciente deve ser selecionado!" filter="true" filterMatchMode="startsWith">
+                                    <f:converter converterId="converterUnidadeBasicaSaude"/>
+                                    <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel="Selecione um registro"/>
+                                    <f:selectItems value="#{estoquevacinaCrudMB.ubs}"
+                                                   var="ub" itemLabel="#{ub.nome}" itemValue="#{ub}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-6">
+                            <div>
+                                <p:outputLabel value="Itens" for="cod"/>
+                            </div>
+                            <div>
+                                <p:inputText id="cod" value="#{estoquevacinaCrudMB.codNota}"
+                                             required="true" requiredMessage="Obrigatorio!" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+                        <div class="ui-g-4">
+                            <div>
+                                <p:commandButton action="#{estoquevacinaCrudMB.buscarCodnota()}" value="Buscar" update="@form, evForm"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <c:if test="#{not empty estoquevacinaCrudMB.nota.id}">
+                    <div class="ui-g">
+                        <div class="ui-g-4">
+                            <div>
+                                <h:outputLabel value="Código" for="codigo"/>
+                            </div>
+                            <div>
+                                <p:inputText id="codigo" value="#{estoquevacinaCrudMB.nota.codnota}" readonly="true"/>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-4">
+                            <div>
+                                <h:outputLabel value="Data" for="data"/>
+                            </div>
+                            <div>
+                                <p:calendar id="data" disabled="true" value="#{estoquevacinaCrudMB.nota.datanota.time}" readonly="true" pattern="dd/MM/yyyy"/>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+
+
+            </h:form >
+            <h:form id="evForm">
+                <p:dataTable value="#{estoquevacinaCrudMB.estoqueVacinaList}" var="ev">
+                    <p:column headerText="Codigo">
+                        <h:outputText value="#{ev.itensNota.notafiscal.codnota}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Vacina">
+                        <h:outputText value="#{ev.vacina.nome}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Validade">
+                        <h:outputText value="#{ev.itensNota.datavalidade}"/>
+                    </p:column>
+                    
+                   <p:column headerText="Descriçao">
+                       <h:outputText value="#{ev.itensNota.descricao}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Valor">
+                        <h:outputText value="#{ev.itensNota.valor}"/>
+                    </p:column>
+
+                    <p:column headerText="Quantidade">
+                        <h:outputText value="#{ev.quantidade}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Lote">
+                        <h:outputText value="#{ev.itensNota.lotevacina}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Quantidade">
+                        <h:outputText value="#{ev.itensNota.descricao}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+                <div class="ui-g">
+                    <div class="ui-g-4">
+                        <div>
+                            <p:commandButton action="#{estoquevacinaCrudMB.saveEV()}" value="Salvar Estoque" update="@form, notaForm"/>
+                        </div>
+                    </div>
+
+                </div>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>

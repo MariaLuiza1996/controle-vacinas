@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/templates/loginTemplate.xhtml">
+        <ui:define name="conteudo">
+            <h:head>
+
+                <h:outputStylesheet library="css" name="estilos.css" />
+            </h:head>
+            <h:body>
+                <p:dialog visible="true" width="300" showHeader="false" height="300"  modal="true" resizable="false">
+                    <p:graphicImage library="imagens" name="final.png" width="250"/>
+                    <h:form id="formLogin">
+                        <div align="left" >
+
+                            <div class="ui-g">
+                                <div class="ui-g-12">
+                                    <div>
+                                        <p:outputLabel value="Usuario" for="usua"/>
+                                    </div>
+                                    <div>
+                                        <p:inputMask mask="9?99999999999999" id="usua" value="#{loginCrudMB.cns}"
+                                                     required="true" requiredMessage="Obrigatorio!" />
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui-g-12">
+                                <div>
+                                    <h:outputLabel value="Senha" for="senha"/>
+                                </div>
+                                <div>
+                                    <p:password id="senha" value="#{loginCrudMB.senha}" required="true" requiredMessage="Obrigatorio"/>
+                                </div>
+                            </div>
+                            <div class="ui-g-12">
+                                <div>
+                                    <p:commandButton action="#{loginCrudMB.efetuarLogin()}" value="Entrar" update="@form, formLogin, mensagens"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </h:form>
+                </p:dialog>
+            </h:body>
+        </ui:define>
+    </ui:composition>
+</html>

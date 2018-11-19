@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo"> Listagem de Vacinas Pacientes</ui:define>
+        <ui:define name="conteudo">
+            <h:form id="formedicao">
+                <p:panel header="Cadastro de Ministrar Vacinas"/>
+                <div align="left">
+
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <div>
+                                <h:outputLabel value="Funcionario" for="selectfuncionario"/>
+                            </div>
+                            <div>
+                                <p:selectOneMenu id="selectfuncionario" value="#{vacinapacienteCrudMB.vacinaPaciente.funcionario}"
+                                                 required="true" requiredMessage="O funcionario deve ser selecionado!" filter="true" filterMatchMode="startsWith">
+                                    <f:converter converterId="converterFuncionario"/>
+                                    <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel="Selecione um registro"/>
+                                    <f:selectItems value="#{vacinapacienteCrudMB.funcionarios}"
+                                                   var="vp" itemLabel="#{vp.nome}" itemValue="#{vp}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="ui-g-12">
+                            <div>
+                                <h:outputLabel value="Paciente" for="selectpaciente"/>
+                            </div>
+                            <div>
+                                <p:selectOneMenu id="selectpaciente" value="#{vacinapacienteCrudMB.vacinaPaciente.paciente}"
+                                                 required="true" requiredMessage="O paciente deve ser selecionado!" filter="true" filterMatchMode="startsWith">
+                                    <f:converter converterId="converterPaciente"/>
+                                    <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel="Selecione um registro"/>
+                                    <f:selectItems value="#{vacinapacienteCrudMB.pacientes}"
+                                                   var="vp" itemLabel="#{vp.numcns}" itemValue="#{vp}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="ui-g-12">
+                            <div>
+                                <h:outputLabel value="Vacina" for="selectvacina"/>
+                            </div>
+                            <div>
+                                <p:selectOneMenu id="selectvacina" value="#{vacinapacienteCrudMB.vacinaPaciente.vacina}"
+                                                 required="true" requiredMessage="O paciente deve ser selecionado!" filter="true" filterMatchMode="startsWith">
+                                    <f:converter converterId="converterVacina"/>
+                                    <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel="Selecione um registro"/>
+                                    <f:selectItems value="#{vacinapacienteCrudMB.vacinas}"
+                                                   var="vp" itemLabel="#{vp.nome}" itemValue="#{vp}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-3">
+                            <div>
+                                <p:outputLabel value="Data Ministrada" for="datamin"/>
+                            </div>
+                            <div>
+                                <p:calendar id="datamin" value="#{vacinapacienteCrudMB.vacinaPaciente.dataministrada}"
+                                            mask="true" pattern="dd/MM/yyyy" navigator="true" size="10" required="true">
+                                    <f:converter converterId="convertercalendar"/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <hr style="margin-top: 50px"/>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:commandButton icon="ui-icon-disk" action="#{vacinapacienteCrudMB.save()}" value="Salvar" update=":formedicao :formlistagem, mensagens" rendered="#{empty vacinapacienteCrudMB.vacinaPaciente.id}"
+                                     oncomplete="if(!args.validationFailed){PF('dlg').show();}"/>
+                    <p:commandButton icon="ui-icon-disk" action="#{vacinapacienteCrudMB.update()}" value="Atualizar" update=":formedicao, mensagens" rendered="#{not empty vacinapacienteCrudMB.vacinaPaciente.id}"/>
+                </div>
+            </div>
+            </h:form>
+            <br/>
+            <h:form id="comandos">
+                <p:commandButton id="editButton" action="#{vacinapacienteCrudMB.getVacinaPacienteForEdition(vacinapacienteMB.vacinaPaciente.id)}" value="Editar" disabled="#{empty vacinapacienteMB.vacinaPaciente.id}"
+                                 icon="ui-icon-pencil" oncomplete="PF('dlg').show();" update=":formedicao"/>
+                <p:commandButton action="#{vacinapacienteCrudMB.delete(vacinapacienteMB.vacinaPaciente.id)}" value="Excluir" icon="ui-icon-trash" disabled="#{empty vacinapacienteMB.vacinaPaciente.id}" onclick="if (!confirm('Confirma a exclusão?'))
+                            return false" update="@form"/>
+            </h:form>
+            <h:form id="formlistagem">
+                <p:panel header="Listagem das Vacinas Ministradas"/>
+                <p:dataTable value="#{vacinapacienteMB.vacinaPacientes}" var="vacinapacienteVar" id="listagem"
+                             paginator="true" emptyMessage="Nenhum registro encontrado" rows="4"
+                             selection="#{vacinapacienteMB.vacinaPaciente}" selectionMode="single" 
+                             rowKey="#{vacinapacienteVar.id}">
+
+
+                    <p:column headerText="Paciente" filterBy="#{vacinapacienteVar.paciente}" sortBy="#{pacienteVar.nome}" filterMatchMode="contains">
+                        <p:outputLabel value="#{vacinapacienteVar.paciente.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="Data Ministrada">
+                        <p:outputLabel value="#{vacinapacienteVar.dataministrada}">
+                            <f:converter converterId="convertercalendar"/>
+                        </p:outputLabel>
+                    </p:column>
+
+                    <p:column headerText="Funcionario" filterBy="#{vacinapacienteVar.funcionario.nome}" sortBy="#{vacinapacienteVar.funcionario.nome}" filterMatchMode="contains">
+                        <p:outputLabel value="#{vacinapacienteVar.funcionario.nome}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

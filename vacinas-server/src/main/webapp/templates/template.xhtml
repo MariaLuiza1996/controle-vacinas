@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>   
+        <title>Sistema de Controle de Vacinaçao Online</title>
+        <h:outputStylesheet library="css" name="estilos.css"/>
+        <h:outputScript library="js" name="scripts.js" />
+
+    </h:head>
+    
+    <h:body>
+        
+        <p:layout fullPage="true">
+            <p:layoutUnit header="Sistema de Controle de Vacinação Online" position="north" resizable="false" closable="false" 
+                          collapsible="false">
+                
+            </p:layoutUnit> 
+            
+            <p:layoutUnit  header="Desenvolvido por RPM Software" position="south" resizable="false" closable="false" 
+                          collapsible="false">
+                
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="west" size="250" header="Menu" resizable="true" closable="false" 
+                          collapsible="true">
+                <h:form>
+                <p:panelMenu>
+                    <p:submenu label="Cadastros">
+                        <p:menuitem value="Pacientes" action="/privado/paciente/pacientes.xhtml?faces-redirect=true"/>
+                        <p:menuitem value="Funcionarios" action="/privado/funcionario/funcionarios.xhtml?faces-redirect=true"/>
+                        <p:menuitem value="Unidade Basica de Saúde" action="/privado/ubs/ubs.xhtml?faces-redirect=true"/>
+                    </p:submenu>
+                    <p:submenu label="Vacinas">
+                        <p:menuitem value="Vacinas" action="/privado/vacina/vacinas.xhtml?faces-redirect=true"/>
+                        <p:menuitem value="Ministrar Vacinas" action="/privado/vacinapaciente/vacinaspacientes.xhtml?faces-redirect=true"/>
+                         <p:menuitem value="Nota Fiscal" action="/privado/notafiscal/notafiscal.xhtml?faces-redirect=true"/>
+                         <p:menuitem value="Ministrar Estoque" action="/privado/estoque/estoquevacina.xhtml?faces-redirect=true"/>
+                       
+                    </p:submenu>
+                    
+                     <p:submenu label="Relatórios">
+                         <p:menuitem value="Vacinas" action="#{pacienteCrudMB.imprimeVacinas()}" target="_blank" ajax="false"/>
+     
+                       
+                    </p:submenu>
+                    
+                </p:panelMenu>
+                </h:form>
+                
+            </p:layoutUnit>
+            
+            <p:layoutUnit position="center" resizable="false" closable="false" 
+                          collapsible="false">
+                
+                <h:form id="mensagens">
+                    <p:growl />
+                </h:form>
+                
+                <ui:insert name="conteudo">
+                    
+                </ui:insert>
+
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+    
+</html>
+
+
+
+
+

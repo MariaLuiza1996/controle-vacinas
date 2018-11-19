@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo"> Listagem de Pacientes</ui:define>
+        <ui:define name="conteudo">
+            <h:form id="formedicao">
+                <p:panel header="Cadastro de Pacientes"/>
+
+                <div align="left">
+
+                    <div class="ui-g">
+                        <div class="ui-g-9">
+                            <div>
+                                <p:outputLabel value="Nome" for="nome"/>
+                            </div>
+                            <div>
+                                <p:inputText id="nome" value="#{pacienteCrudMB.paciente.nome}" maxlength="50"
+                                             required="true" requiredMessage="Obrigatorio!" />
+                            </div>
+                        </div>
+                        
+                        <div class="ui-g-3">
+                            <div>
+                                <h:outputLabel value="Sexo" for="selectsexo"/>
+                            </div>
+                            <div>
+                                <p:selectOneMenu id="selectsexo" value="#{pacienteCrudMB.paciente.sexo}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Selecione o Sexo" noSelectionOption="true"/>
+                                    <f:selectItem itemValue="M" itemLabel="Masculino"/>
+                                    <f:selectItem itemValue="F" itemLabel="Feminino"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="ui-g">
+                        <div class="ui-g-4">
+                            <div>
+                                <p:outputLabel value="CNS" for="cns"/>
+                            </div>
+                            <div>
+                                <p:inputMask id="cns" value="#{pacienteCrudMB.paciente.numcns}"
+                                             mask="999999999999999" required="true" size="15"/>
+                            </div>
+                        </div>
+                        <div class="ui-g-4">
+                            <div>
+                                <p:outputLabel value="CPF" for="cpf"/>
+                            </div>
+                            <div>
+                                <p:inputMask id="cpf" value="#{pacienteCrudMB.paciente.cpf}"
+                                             mask="999.999.999-99" required="true" size="14"/>
+                            </div>
+                        </div>
+                        <div class="ui-g-4">
+                            <div>
+                                <p:outputLabel value="Data Nascimento" for="datanasc"/>
+                            </div>
+                            <div>
+                                <p:calendar id="datanasc" value="#{pacienteCrudMB.paciente.datanasc}"
+                                            mask="true" pattern="dd/MM/yyyy" navigator="true" size="10" required="true" requiredMessage="A data de Nascimento deve ser informsda">
+                                    <f:converter converterId="convertercalendar"/>
+                                </p:calendar>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-3">
+                            <div>
+                                <h:outputLabel value="Telefone" for="telefone"/>
+                            </div>
+                            <div>
+                                <p:inputMask id="telefone" value="#{pacienteCrudMB.paciente.telefone}"
+                                             mask="(99)9999-9999" required="true" size="15" requiredMessage="O telefone deve ser informado"/>
+                            </div>
+                        </div>
+                        <div class="ui-g-3">
+                            <div>
+                                <h:outputLabel value="Celular" for="celular"/>
+                            </div>
+                            <div>
+                                <p:inputMask id="celular" value="#{pacienteCrudMB.paciente.celular}"
+                                             mask="(99)99999-9999" required="true" size="15" requiredMessage="O celular deve ser informado"/>
+                            </div>
+                        </div>
+                        <div class="ui-g-6">
+                            <div>
+                                <h:outputLabel value="E-mail" for="email"/>
+                            </div>
+                            <div>
+                                <p:inputText id="email" value="#{pacienteCrudMB.paciente.email}"
+                                             required="true" maxlength="50" requiredMessage="O email deve ser informsdo"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+
+                        <div class="ui-g-6">
+                            <div>
+                                <p:outputLabel value="Rua" for="rua"/>
+
+                            </div>
+                            <div>
+                                <p:inputText id="rua" value="#{pacienteCrudMB.paciente.rua}"
+                                             required="true" requiredMessage="A rua deve ser informada" />
+                            </div>
+                        </div>
+                        <div class="ui-g-2">
+                            <div>
+                                <p:outputLabel value="Numero" for="numero"/>
+                            </div>
+                            <div>
+                                <p:inputText id="numero" value="#{pacienteCrudMB.paciente.numcasa}"
+                                             required="true" />
+                            </div>
+                        </div>
+
+                        <div class="ui-g-4">
+                            <div>
+                                <p:outputLabel value="Complemento" for="complemento"/>
+                            </div>
+                            <div>
+                                <p:inputText id="complemento" value="#{pacienteCrudMB.paciente.complemento}"
+                                              />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+
+                        <div class="ui-g-3">
+                            <div>
+                                <p:outputLabel value="Bairro" for="bairro"/>
+
+                            </div>
+                            <div>
+                                <p:inputText id="bairro" value="#{pacienteCrudMB.paciente.bairro}"
+                                             required="true" />
+                            </div>
+                        </div>
+
+                        <div class="ui-g-3">
+                            <div>
+                                <p:outputLabel value="Estado" for="selectEstado"/>
+                            </div>
+                            <div>
+                                <p:selectOneMenu id="selectEstado" value="#{pacienteCrudMB.selectedEstado}" required="true" requiredMessage="O Estado deve ser selecionado!">
+                                    <p:ajax event="change" listener="#{pacienteCrudMB.refreshCidades()}" update="selectCidade"/>
+                                    <f:converter converterId="converterEstado"/>
+                                    <f:selectItem noSelectionOption="true" itemLabel="Selecione um registro"/>
+                                    <f:selectItems value="#{pacienteCrudMB.estados}"
+                                                   var="e" itemLabel="#{e.uf}" itemValue="#{e}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-3">
+                            <div>
+                                <h:outputLabel value="Cidade" for="selectCidade"/>
+                            </div>
+                            <div>
+                                <p:selectOneMenu id="selectCidade" value="#{pacienteCrudMB.paciente.cidade}"
+                                                 required="true" requiredMessage="A Cidade deve ser selecionada!"
+                                                 disabled="#{empty pacienteCrudMB.selectedEstado.id}">
+                                    <f:converter converterId="converterCidade"/>
+                                    <f:selectItem noSelectionOption="true" itemLabel="Selecione um registro"/>
+                                    <f:selectItems value="#{pacienteCrudMB.cidades}"
+                                                   var="c" itemLabel="#{c.nome}" itemValue="#{c}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="ui-g-3">
+                            <div>
+                                <h:outputLabel value="Senha" for="senha"/>
+                            </div>
+                            <div>
+                                <p:password id="senha" value="#{pacienteCrudMB.paciente.senha}"
+                                                 required="true" requiredMessage="A senha deve ser selecionada!"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr style="margin-top: 50px"/>
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <p:commandButton icon="ui-icon-disk" action="#{pacienteCrudMB.save()}" value="Salvar" update=":formedicao :formlistagem, mensagens" rendered="#{empty pacienteCrudMB.paciente.id}"
+                                             oncomplete="if(!args.validationFailed){PF('dlg').show();}"/>
+                            <p:commandButton icon="ui-icon-disk" action="#{pacienteCrudMB.update()}" value="Atualizar" update=":formedicao, mensagens" rendered="#{not empty pacienteCrudMB.paciente.id}"/>
+                        </div>
+                    </div>
+            </h:form>
+            <br/>
+
+            <h:form id="comandos">
+                <p:commandButton id="editButton" action="#{pacienteCrudMB.getPacienteForEdition(pacienteMB.paciente.id)}" value="Editar" disabled="#{empty pacienteMB.paciente.id}"
+                                 icon="ui-icon-pencil" oncomplete="PF('dlg').show();" update=":formedicao"/>
+                <p:commandButton action="#{pacienteCrudMB.delete(pacienteMB.paciente.id)}" value="Excluir" icon="ui-icon-trash" disabled="#{empty pacienteMB.paciente.id}" onclick="if (!confirm('Confirma a exclusão?'))
+                            return false" update="@form"/>
+            </h:form>
+
+            <h:form id="formlistagem">
+                <p:panel header="Listagem Pacientes"/>
+                <p:dataTable value="#{pacienteMB.pacientes}" var="pacienteVar" id="listagem"
+                             paginator="true" emptyMessage="Nenhum registro encontrado" rows="4"
+                             selection="#{pacienteMB.paciente}" selectionMode="single" 
+                             rowKey="#{pacienteVar.id}"
+                             >
+
+                    <p:ajax event="rowSelect" process="@this" update="comandos"/>
+
+                    <p:column headerText="Nome" filterBy="#{pacienteVar.nome}" sortBy="#{pacienteVar.nome}" filterMatchMode="contains">
+                        <p:outputLabel value="#{pacienteVar.nome}"/>
+
+                    </p:column>
+                    <p:column headerText="Telefone">
+                        <p:outputLabel value="#{pacienteVar.telefone}"/>
+
+                    </p:column>
+
+                    <p:column headerText="Celular">
+                        <p:outputLabel value="#{pacienteVar.celular}"/>
+
+                    </p:column>
+
+                    <p:column headerText="CNS" id="cns">
+                        <p:outputLabel value="#{pacienteVar.numcns}"/>
+
+                    </p:column>
+
+                    <p:column headerText="CPF">
+                        <p:outputLabel value="#{pacienteVar.cpf}"/>
+                    </p:column>
+
+                    <p:column headerText="Data Nascimento">
+                        <p:outputLabel value="#{pacienteVar.datanasc}">
+                            <f:converter converterId="convertercalendar"/>
+                        </p:outputLabel>
+
+                    </p:column>
+
+                    <p:column headerText="Sexo">
+                        <h:outputText value="#{pacienteVar.sexo == 'M' ? 'Masculino' : 'Feminino'}"/>
+                    </p:column>
+
+                    <p:column headerText="E-mail">
+                        <h:outputText value="#{pacienteVar.email}"/>
+                    </p:column>
+
+                    <p:column headerText="Cidade">
+                        <h:outputText value="#{pacienteVar.cidade.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{pacienteVar.cidade.estado.uf}"/>
+                    </p:column>
+
+                    <p:column headerText="Bairro">
+                        <h:outputText value="#{pacienteVar.bairro}"/>
+                    </p:column>
+
+                    <p:column headerText="N°casa">
+                        <h:outputText value="#{pacienteVar.numcasa}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Senha">
+                        <h:outputText value="#{pacienteVar.senha}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

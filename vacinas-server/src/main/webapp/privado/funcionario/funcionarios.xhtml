@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo"> Listagem de Funcionarios</ui:define>
+        <ui:define name="conteudo">
+      
+            <h:form id="formedicao">
+                <p:panel header="Cadastro de Funcionarios"/>
+                <div align="left">
+
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <div>
+                                <p:outputLabel value="Nome" for="nome"/>
+                            </div>
+                            <div>
+                                <p:inputText id="nome" value="#{funcionarioCrudMB.funcionario.nome}" maxlength="50"
+                                             required="true" requiredMessage="O nome do funcionario deve ser informado" />
+                            </div>
+                        </div>
+                        
+                        <div class="ui-g-6">
+                            <div>
+                                <h:outputLabel value="Masp" for="masp"/>
+                            </div>
+                            <div>
+                                <p:inputMask id="masp" value="#{funcionarioCrudMB.funcionario.masp}"
+                                             mask="9999999" required="true" requiredMessage="O numero do MASP deve ser informado!" size="8"/>
+                            </div>
+                        </div>
+                    </div>
+                        
+                        <div class="ui-g-6">
+                            <div>
+                                <h:outputLabel value="Senha" for="senha"/>
+                            </div>
+                            <div>
+                                <p:password id="senha" value="#{funcionarioCrudMB.funcionario.senha}"
+                                                 required="true" requiredMessage="A senha deve ser informada!"/>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="ui-g-9">
+                            <div>
+                                <h:outputLabel value="E-mail" for="email"/>
+                            </div>
+                            <div>
+                                <p:inputText id="email" value="#{funcionarioCrudMB.funcionario.email}"
+                                             required="true"  requiredMessage="O email deve ser informado!" maxlength="50"/>
+                            </div>
+                        </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-6">
+                            <div>
+                                <h:outputLabel value="Telefone" for="telefone"/>
+                            </div>
+                            <div>
+                                <p:inputMask id="telefone" value="#{funcionarioCrudMB.funcionario.telefone}"
+                                             mask="(99)9999-9999" required="true" size="15" requiredMessage="O telefone deve ser informado"/>
+                            </div>
+                        </div>
+                    </div>
+                        
+                        <hr style="margin-top: 50px"/>
+                        <div class="ui-g">
+                            <div class="ui-g-12">
+                                <p:commandButton icon="ui-icon-disk" action="#{funcionarioCrudMB.save()}" value="Salvar" update=":formedicao :formlistagem, mensagens" rendered="#{empty funcionarioCrudMB.funcionario.id}"
+                                                 oncomplete="if(!args.validationFailed){PF('dlg').show();}"/>
+                                <p:commandButton icon="ui-icon-disk" action="#{funcionarioCrudMB.update()}" value="Atualizar" update=":formedicao, mensagens" rendered="#{not empty funcionarioCrudMB.funcionario.id}"/>
+                            </div>
+                        </div>
+                <br/>
+
+            </h:form>
+            
+       <h:form id="comandos">
+                <p:commandButton id="editButton" action="#{funcionarioCrudMB.getFuncionarioForEdition(funcionarioMB.funcionario.id)}" value="Editar" disabled="#{empty funcionarioMB.funcionario.id}"
+                                     icon="ui-icon-pencil" update=":formedicao"/>
+                <p:commandButton action="#{funcionarioCrudMB.delete(funcionarioMB.funcionario.id)}" value="Excluir" icon="ui-icon-trash" disabled="#{empty funcionarioMB.funcionario.id}" onclick="if (!confirm('Confirma a exclusão?'))
+                            return false" update="@form"/>
+                </h:form>
+
+            <h:form id="formlistagem">
+                <p:panel header="Listagem Funcionarios"/>
+                <p:dataTable value="#{funcionarioMB.funcionarios}" var="funcionarioVar" id="listagem"
+                             paginator="true" emptyMessage="Nenhum registro encontrado" rows="4"
+                             selection="#{funcionarioMB.funcionario}" selectionMode="single" 
+                             rowKey="#{funcionarioVar.id}"
+                             >
+
+                    <p:ajax event="rowSelect" process="@this" update="comandos"/>
+
+                    <p:column headerText="Nome" filterBy="#{funcionarioVar.nome}" sortBy="#{funcionarioVar.nome}" filterMatchMode="contains">
+                        <p:outputLabel value="#{funcionarioVar.nome}"/>
+
+
+                    </p:column>
+                    
+                    <p:column headerText="Masp" filterBy="#{funcionarioVar.masp}" sortBy="#{funcionarioVar.masp}" filterMatchMode="contains">
+                        <p:outputLabel value="#{funcionarioVar.masp}"/>
+                        
+                    </p:column>
+                    
+                    <p:column headerText="Senha" filterBy="#{funcionarioVar.senha}">
+                        <p:outputLabel value="#{funcionarioVar.senha}"/>
+
+
+                    </p:column>
+                    <p:column headerText="Telefone">
+                        <p:outputLabel value="#{funcionarioVar.telefone}"/>
+
+                    </p:column>
+
+                    <p:column headerText="E-mail">
+                        <h:outputText value="#{funcionarioVar.email}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

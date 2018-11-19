@@ -1,0 +1,44 @@
+.ui-widget{
+    font-size: 15px !important;
+}
+
+.ui-layout-north {
+    z-index:20 !important;
+    overflow:visible !important;
+    overflow-y:hidden;
+    overflow-x:hidden;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+    overflow:hidden !important;
+
+}
+
+.ui-inputfield {
+    width: 100%;
+}
+
+.ui-inputtext {
+    width: 100%;
+}
+
+.hasDatepicker{
+    width: 100%;
+}
+
+.ui-inputtextarea{
+    width: 100%;
+}
+
+.full-width{
+    width: 100%;
+}
+
+.ui-selectonemenu-label{
+    width: 100%;
+}
+
+.ui-selectonemenu{
+     width: 90% !important;
+}
