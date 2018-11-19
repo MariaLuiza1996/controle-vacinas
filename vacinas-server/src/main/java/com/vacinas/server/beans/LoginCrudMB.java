@@ -5,30 +5,35 @@
  */
 package com.vacinas.server.beans;
 
-import com.vacinas.lib.Paciente;
+import com.vacinas.services.FuncionarioServices;
 import com.vacinas.services.PacienteServices;
 import com.vacinas.services.dao.PacienteDAO;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Objects;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-//import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 @ManagedBean(name = "loginCrudMB")
 @SessionScoped
 public class LoginCrudMB implements Serializable {
 
-    private PacienteLogado pacientelogado;
-    private String cns;
+    private Object usuarioLogado;
+    private String login;
     private String senha;
-    PacienteDAO dao;
+    private boolean logado = false;
+    private boolean paciente = false;
 
     @Inject
     private PacienteServices pacienteServices;
 
+    @Inject
+    FuncionarioServices funcionarioServices;
+
     public LoginCrudMB() {
-        dao = new PacienteDAO();
     }
 
     public String paginaLogin() {
@@ -36,18 +41,45 @@ public class LoginCrudMB implements Serializable {
     }
 
     public String efetuarLogin() {
-        Paciente paciente = pacienteServices.login(cns, senha);
-        if(paciente != null){
-            this.pacientelogado.setPaciente(paciente);
-            return "/index?faces-redirect=true";
+        if (!logado) {
+            if (paciente) {
+                usuarioLogado = pacienteServices.login(login, senha);
+                if (Objects.isNull(usuarioLogado)) {
+                    FacesContext
+                            .getCurrentInstance()
+                            .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Usuário ou senha inválidos! Tente novamente..."));
+                } else {
+                    logado = true;
+                    return "/index?faces-redirect=true";
+                }
+            } else {
+                usuarioLogado = funcionarioServices.login(login, senha);
+                if (Objects.isNull(usuarioLogado)) {
+                    FacesContext
+                            .getCurrentInstance()
+                            .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Usuário ou senha inválidos! Tente novamente..."));
+                } else {
+                    logado = true;
+                    return "/index?faces-redirect=true";
+                }
+            }
         }
-        
-        return null;
+        return "";
     }
 
     public String efetuarLogout() {
-        pacientelogado = null;
+        usuarioLogado = null;
+        logado = false;
+        paciente = false;
+        login = null;
+        senha = null;
         return "/index?faces-redirect=true";
+    }
+
+    public void checkUsuarioLogado() throws IOException {
+        if (!logado || Objects.isNull(usuarioLogado)) {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/vacinas-server/faces/login.xhtml");
+        }
     }
 
     public PacienteServices getPacienteServices() {
@@ -58,26 +90,13 @@ public class LoginCrudMB implements Serializable {
         this.pacienteServices = pacienteServices;
     }
 
-    public PacienteLogado getPacientelogado() {
-        return pacientelogado;
+    public String getLogin() {
+        return login;
     }
 
-    public void setPacientelogado(PacienteLogado pacientelogado) {
-        this.pacientelogado = pacientelogado;
+    public void setLogin(String login) {
+        this.login = login;
     }
-
-    public String getCns() {
-        return cns;
-    }
-
-    public void setCns(String cns) {
-        this.cns = cns;
-    }
-
-   
-
-
-   
 
     public String getSenha() {
         return senha;
@@ -87,16 +106,28 @@ public class LoginCrudMB implements Serializable {
         this.senha = senha;
     }
 
-    
-
-    public PacienteDAO getDao() {
-        return dao;
+    public Object getUsuarioLogado() {
+        return usuarioLogado;
     }
 
-    public void setDao(PacienteDAO dao) {
-        this.dao = dao;
+    public void setUsuarioLogado(Object usuarioLogado) {
+        this.usuarioLogado = usuarioLogado;
     }
 
-  
+    public boolean isLogado() {
+        return logado;
+    }
+
+    public void setLogado(boolean logado) {
+        this.logado = logado;
+    }
+
+    public boolean isPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(boolean paciente) {
+        this.paciente = paciente;
+    }
 
 }

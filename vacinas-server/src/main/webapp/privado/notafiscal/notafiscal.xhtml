@@ -50,6 +50,29 @@
                 <br/>
 
             </h:form>
+            
+            <h:form id="itensNotaCommands">
+                
+                <!-- ADICIONAR <p:commandButton onclick="PF('itemNotaDlg.show()')" action="#//{notafiscalCrudMB.newItemNota()}" -->
+                <!-- REMOVER -->
+                <!-- EDITAR -->
+                
+            </h:form>
+            
+            <h:form id="itensNotaForm">
+                <p:dataTable id="itensNotaTable" value="#{notafiscalCrudMB.itensNota}" var="i"
+                             selection="#{notafiscalCrudMB.item}" selectionMode="single">
+                    <p:column headerText="Vacina">
+                        <h:outputText value="#{i.vacina.nome}"/>
+                    </p:column>
+                    <p:column headerText="Valor">
+                        <h:outputText value="#{i.valor}"/>
+                    </p:column>
+                    
+                    <!-- ... -->
+                    
+                </p:dataTable>
+            </h:form>
 
             <h:form id="comandos">
                 <p:commandButton id="editButton" action="#{notafiscalCrudMB.getNotaFiscalForEdition(notafiscalMB.notaFiscal.id)}" value="Editar" disabled="#{empty notafiscalMB.notaFiscal.id}"

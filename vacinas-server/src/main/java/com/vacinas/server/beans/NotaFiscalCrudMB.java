@@ -2,12 +2,7 @@ package com.vacinas.server.beans;
 
 import com.vacinas.lib.ItensNota;
 import com.vacinas.lib.NotaFiscal;
-import com.vacinas.lib.NotaFiscal;
-import com.vacinas.lib.NotaFiscal;
 import com.vacinas.lib.Vacina;
-import static com.vacinas.server.beans.EntityManagerUtil.getEntityManager;
-import com.vacinas.services.NotaFiscalServices;
-import com.vacinas.services.NotaFiscalServices;
 import com.vacinas.services.NotaFiscalServices;
 import com.vacinas.services.dao.NotaFiscalDAO;
 import java.io.IOException;
@@ -19,24 +14,24 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.TypedQuery;
 
 @Named(value = "notafiscalCrudMB")
 @ViewScoped
 public class NotaFiscalCrudMB implements Serializable {
+
     private NotaFiscal notafiscal;
     private List<NotaFiscal> notas;
     private List<Vacina> vacinas;
-    //private List<NotaFiscal> itens;
     private NotaFiscal selectedNota;
-    private ItensNota itens;
+    private List<ItensNota> itensNota;
+    private ItensNota item;
 
     @Inject
     private NotaFiscalServices notafiscalServices;
 
     @Inject
     private NotaFiscalDAO notafiscalDAO;
-    
+
     @Inject
     private NotaFiscalServices notaServices;
 
@@ -48,21 +43,20 @@ public class NotaFiscalCrudMB implements Serializable {
         notafiscal = (NotaFiscal) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedNotaFiscal");
         if (Objects.isNull(notafiscal)) {
             notafiscal = new NotaFiscal();
-    }
-        
+        }
+
         //refreshNotas();
     }
-    
 
     public void save() throws IOException {
         notafiscalServices.save(notafiscal);
         redirectForNotaFiscals();
-        notafiscal= new NotaFiscal();
+        notafiscal = new NotaFiscal();
     }
 
     public void getNotaFiscalForEdition(Integer id) {
         notafiscal = notafiscalServices.find(id);
-        
+
     }
 
     public void update() throws IOException {
@@ -121,7 +115,6 @@ public class NotaFiscalCrudMB implements Serializable {
         this.notas = notas;
     }
 
-
     public NotaFiscal getItensnota() {
         return notafiscal;
     }
@@ -138,17 +131,45 @@ public class NotaFiscalCrudMB implements Serializable {
         this.vacinas = vacinas;
     }
 
-    public ItensNota getItens() {
-        return itens;
+    public ItensNota getItem() {
+        return item;
     }
 
-    public void setItens(ItensNota itens) {
-        this.itens = itens;
-    }     
-     
-     
-     
+    public void setItem(ItensNota item) {
+        this.item = item;
+    }
 
+    public NotaFiscal getSelectedNota() {
+        return selectedNota;
+    }
 
+    public void setSelectedNota(NotaFiscal selectedNota) {
+        this.selectedNota = selectedNota;
+    }
 
+    public List<ItensNota> getItensNota() {
+        return itensNota;
+    }
+
+    public void setItensNota(List<ItensNota> itensNota) {
+        this.itensNota = itensNota;
+    }
+
+    public void newItemNota() {
+        item = new ItensNota();
+    }
+
+    public void addItemNota() {
+        itensNota.add(item);
+        item = null;
+    }
+
+    public void updateItemNota() {
+
+    }
+
+    public void deleteItemNota() {
+        itensNota.remove(item);
+        item = null;
+    }
 }

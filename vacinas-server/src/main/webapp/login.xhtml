@@ -12,7 +12,7 @@
                 <h:outputStylesheet library="css" name="estilos.css" />
             </h:head>
             <h:body>
-                <p:dialog visible="true" width="300" showHeader="false" height="300"  modal="true" resizable="false">
+                <p:dialog visible="true" width="400" showHeader="false" height="400" resizable="false">
                     <p:graphicImage library="imagens" name="final.png" width="250"/>
                     <h:form id="formLogin">
                         <div align="left" >
@@ -20,13 +20,29 @@
                             <div class="ui-g">
                                 <div class="ui-g-12">
                                     <div>
-                                        <p:outputLabel value="Usuario" for="usua"/>
+                                        <p:outputLabel value="Paciente" for="pac"/>
                                     </div>
                                     <div>
-                                        <p:inputMask mask="9?99999999999999" id="usua" value="#{loginCrudMB.cns}"
+                                        <p:selectBooleanCheckbox id="pac" value="#{loginCrudMB.paciente}">
+                                            <p:ajax update="@form"/>
+                                        </p:selectBooleanCheckbox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui-g">
+                                <div class="ui-g-12">
+                                    <div>
+                                        <p:outputLabel value="Usuario" for="usuaPac"/>
+                                    </div>
+                                    <div>
+                                        <p:inputMask mask="999999999999999" id="usuaPac" rendered="#{loginCrudMB.paciente}"
+                                                     value="#{loginCrudMB.login}"
                                                      required="true" requiredMessage="Obrigatorio!" />
-
-
+                                        
+                                        <p:inputMask mask="9999999" id="usuaFunc" rendered="#{not loginCrudMB.paciente}"
+                                                     value="#{loginCrudMB.login}"
+                                                     required="true" requiredMessage="Obrigatorio!" />
                                     </div>
                                 </div>
                             </div>

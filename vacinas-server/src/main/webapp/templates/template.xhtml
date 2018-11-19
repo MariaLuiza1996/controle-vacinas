@@ -12,63 +12,66 @@
         <h:outputScript library="js" name="scripts.js" />
 
     </h:head>
-    
+
     <h:body>
-        
+
         <p:layout fullPage="true">
             <p:layoutUnit header="Sistema de Controle de Vacinação Online" position="north" resizable="false" closable="false" 
                           collapsible="false">
-                
+                <h:form>
+                    <p:commandButton value="Sair" action="#{loginCrudMB.efetuarLogout()}"/>
+                </h:form>
             </p:layoutUnit> 
-            
+
             <p:layoutUnit  header="Desenvolvido por RPM Software" position="south" resizable="false" closable="false" 
-                          collapsible="false">
-                
+                           collapsible="false">
+
             </p:layoutUnit>
-            
+
             <p:layoutUnit position="west" size="250" header="Menu" resizable="true" closable="false" 
                           collapsible="true">
                 <h:form>
-                <p:panelMenu>
-                    <p:submenu label="Cadastros">
-                        <p:menuitem value="Pacientes" action="/privado/paciente/pacientes.xhtml?faces-redirect=true"/>
-                        <p:menuitem value="Funcionarios" action="/privado/funcionario/funcionarios.xhtml?faces-redirect=true"/>
-                        <p:menuitem value="Unidade Basica de Saúde" action="/privado/ubs/ubs.xhtml?faces-redirect=true"/>
-                    </p:submenu>
-                    <p:submenu label="Vacinas">
-                        <p:menuitem value="Vacinas" action="/privado/vacina/vacinas.xhtml?faces-redirect=true"/>
-                        <p:menuitem value="Ministrar Vacinas" action="/privado/vacinapaciente/vacinaspacientes.xhtml?faces-redirect=true"/>
-                         <p:menuitem value="Nota Fiscal" action="/privado/notafiscal/notafiscal.xhtml?faces-redirect=true"/>
-                         <p:menuitem value="Ministrar Estoque" action="/privado/estoque/estoquevacina.xhtml?faces-redirect=true"/>
-                       
-                    </p:submenu>
-                    
-                     <p:submenu label="Relatórios">
-                         <p:menuitem value="Vacinas" action="#{pacienteCrudMB.imprimeVacinas()}" target="_blank" ajax="false"/>
-     
-                       
-                    </p:submenu>
-                    
-                </p:panelMenu>
+                    <p:remoteCommand autoRun="true" actionListener="#{loginCrudMB.checkUsuarioLogado()}"/>
                 </h:form>
-                
+                <h:form>
+                    <p:panelMenu>
+                        <p:submenu label="Seu Cadastro" rendered="#{loginCrudMB.paciente}">
+                            <p:menuitem value="Cadastro" url="#"/>
+                        </p:submenu>
+                        <p:submenu label="Cadastros" rendered="#{not loginCrudMB.paciente}">
+                            <p:menuitem value="Pacientes" action="/privado/paciente/pacientes.xhtml?faces-redirect=true"/>
+                            <p:menuitem value="Funcionarios" action="/privado/funcionario/funcionarios.xhtml?faces-redirect=true"/>
+                            <p:menuitem value="Unidade Basica de Saúde" action="/privado/ubs/ubs.xhtml?faces-redirect=true"/>
+                        </p:submenu>
+                        <p:submenu label="Vacinas" rendered="#{not loginCrudMB.paciente}">
+                            <p:menuitem value="Vacinas" action="/privado/vacina/vacinas.xhtml?faces-redirect=true"/>
+                            <p:menuitem value="Ministrar Vacinas" action="/privado/vacinapaciente/vacinaspacientes.xhtml?faces-redirect=true"/>
+                            <p:menuitem value="Nota Fiscal" action="/privado/notafiscal/notafiscal.xhtml?faces-redirect=true"/>
+                            <p:menuitem value="Ministrar Estoque" action="/privado/estoque/estoquevacina.xhtml?faces-redirect=true"/>
+                        </p:submenu>
+                        <p:submenu label="Relatórios" rendered="#{not loginCrudMB.paciente}">
+                            <p:menuitem value="Vacinas" action="#{pacienteCrudMB.imprimeVacinas()}" target="_blank" ajax="false"/>
+                        </p:submenu>
+                    </p:panelMenu>
+                </h:form>
+
             </p:layoutUnit>
-            
+
             <p:layoutUnit position="center" resizable="false" closable="false" 
                           collapsible="false">
-                
+
                 <h:form id="mensagens">
-                    <p:growl />
+                    <p:growl showDetail="true" showSummary="true"/>
                 </h:form>
-                
+
                 <ui:insert name="conteudo">
-                    
+
                 </ui:insert>
 
             </p:layoutUnit>
         </p:layout>
     </h:body>
-    
+
 </html>
 
 

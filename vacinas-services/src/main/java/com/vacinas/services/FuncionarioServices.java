@@ -1,4 +1,3 @@
-
 package com.vacinas.services;
 
 import com.vacinas.services.dao.FuncionarioDAO;
@@ -12,12 +11,12 @@ public class FuncionarioServices {
 
     @Inject
     private FuncionarioDAO funcionarioDAO;
-    
+
     public void save(Funcionario funcionario) {
         funcionarioDAO.save(funcionario);
     }
-    
-    public List<Funcionario> loadAllFuncionarios(){
+
+    public List<Funcionario> loadAllFuncionarios() {
         return funcionarioDAO.loadAll();
     }
 
@@ -32,15 +31,17 @@ public class FuncionarioServices {
     public void update(Funcionario funcionario) {
         this.funcionarioDAO.update(funcionario);
     }
-    
-    public void delete(Integer id){
+
+    public void delete(Integer id) {
         this.funcionarioDAO.delete(id);
     }
-    
+
     public Funcionario find(Integer id) {
         return funcionarioDAO.find(id);
     }
-    
-    
-    
+
+    public Funcionario login(String cns, String senha) {
+        return funcionarioDAO.loginFuncionario(cns, senha);
+    }
+
 }
