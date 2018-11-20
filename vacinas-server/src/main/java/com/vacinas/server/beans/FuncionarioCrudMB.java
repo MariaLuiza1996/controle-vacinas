@@ -5,8 +5,12 @@ import com.vacinas.lib.Vacina;
 import com.vacinas.lib.Funcionario;
 import com.vacinas.services.PacienteServices;
 import com.vacinas.services.FuncionarioServices;
+import com.vacinas.services.VacinaServices;
+import com.vacinas.services.dao.VacinaDAO;
+import com.vacinas.util.UtilRelatorios;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
@@ -22,6 +26,7 @@ public class FuncionarioCrudMB implements Serializable {
     private Funcionario funcionario;
     private List<Paciente> pacientes;
     private List<Vacina> vacinas;
+    private VacinaDAO daovacina;
 
     @Inject
     private FuncionarioServices funcionarioServices;
@@ -29,17 +34,30 @@ public class FuncionarioCrudMB implements Serializable {
     @Inject
     PacienteServices pacienteServices;
     
+    @Inject
+    VacinaServices vacinaServices;
+    
     @PostConstruct
     public void init() {
         funcionario = (Funcionario) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedFuncionario");
         if (Objects.isNull(funcionario)) {
             funcionario = new Funcionario();
+            daovacina = new VacinaDAO();
         }
     }
     
     public void getFuncionarioForEdition(Integer id) {
         funcionario = funcionarioServices.find(id);
         
+    }
+    
+    public void imprimeVacinas(){
+        HashMap parametros= new HashMap();
+        UtilRelatorios.imprimeRelatorio("relatorioVacinas", parametros,daovacina.loadAll());
+    }
+
+    public void refreshVacinas() {
+        vacinas = vacinaServices.loadAllVacinas();
     }
 
     public void save() throws IOException {

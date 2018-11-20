@@ -61,13 +61,6 @@ public class PacienteCrudMB implements Serializable {
         refreshEstados();
         dao= new VacinaDAO();
     }
-    
-    public void imprimeVacinas(){
-        HashMap parametros= new HashMap();
-        UtilRelatorios.imprimeRelatorio("relatorioVacinas", parametros, vacinas=dao.loadAll());
-    }
-
-    
    
 
     public void refreshEstados() {

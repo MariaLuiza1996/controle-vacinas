@@ -28,10 +28,10 @@ public class VacinaPacienteCrudMB implements Serializable {
     private List<Funcionario> funcionarios;
 
     @Inject
-    VacinaPacienteServices vacinapacienteServices;
+    private VacinaPacienteServices vacinapacienteServices;
 
     @Inject
-    VacinaServices vacinaServices;
+    private VacinaServices vacinaServices;
     
     @Inject
     PacienteServices pacienteServices;
@@ -46,24 +46,23 @@ public class VacinaPacienteCrudMB implements Serializable {
             vacinapaciente = new VacinaPaciente();
         }
         refreshPacientes();
-        refreshFuncionarios();
         refreshVacinas();
-        
+        refreshFuncionarios();
     }
+    
     public void refreshFuncionarios(){
-        funcionarios= funcionarioServices.loadAllFuncionarios();
+        funcionarios = funcionarioServices.loadAllFuncionarios();
     }
     public void refreshPacientes(){
         pacientes = pacienteServices.loadAllPacientes();
     }
     
     public void refreshVacinas(){
-        vacinas = vacinaServices.loadVacinasByQuantidade();
+        vacinas = vacinaServices.loadAllVacinas();
     }
 
     public void save() throws IOException {
         vacinapacienteServices.save(vacinapaciente);
-        
         redirectForVacinaPacientes();
     }
 
@@ -99,7 +98,7 @@ public class VacinaPacienteCrudMB implements Serializable {
     }
 
     public void redirectForVacinaPacientes() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("vacinaspacientes.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("listar.xhtml");
     }
     
     public void getVacinaPacienteForEdition(Integer id) {
@@ -125,7 +124,6 @@ public void novoVacinaPaciente() {
     public void setVacinas(List<Vacina> vacinas) {
         this.vacinas = vacinas;
     }
-
 
     public List<Funcionario> getFuncionarios() {
         return funcionarios;

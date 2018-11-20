@@ -48,9 +48,10 @@
                             <p:menuitem value="Ministrar Vacinas" action="/privado/vacinapaciente/vacinaspacientes.xhtml?faces-redirect=true"/>
                             <p:menuitem value="Nota Fiscal" action="/privado/notafiscal/notafiscal.xhtml?faces-redirect=true"/>
                             <p:menuitem value="Ministrar Estoque" action="/privado/estoque/estoquevacina.xhtml?faces-redirect=true"/>
+                            <p:menuitem value="Listagem Estoque" action="/privado/listagemestoque/listagemestoquevacina.xhtml?faces-redirect=true"/>
                         </p:submenu>
                         <p:submenu label="Relatórios" rendered="#{not loginCrudMB.paciente}">
-                            <p:menuitem value="Vacinas" action="#{pacienteCrudMB.imprimeVacinas()}" target="_blank" ajax="false"/>
+                            <p:menuitem value="Vacinas" action="#{funcionarioCrudMB.imprimeVacinas()}" target="_blank" ajax="false"/>
                         </p:submenu>
                     </p:panelMenu>
                 </h:form>

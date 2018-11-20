@@ -9,7 +9,7 @@
         <ui:define name="titulo"> Listagem de Vacinas Pacientes</ui:define>
         <ui:define name="conteudo">
             <h:form id="formedicao">
-                <p:panel header="Cadastro de Ministrar Vacinas"/>
+                <p:panel header="Ministrar Vacinas"/>
                 <div align="left">
 
                     <div class="ui-g">
@@ -46,12 +46,10 @@
                                 <h:outputLabel value="Vacina" for="selectvacina"/>
                             </div>
                             <div>
-                                <p:selectOneMenu id="selectvacina" value="#{vacinapacienteCrudMB.vacinaPaciente.vacina}"
-                                                 required="true" requiredMessage="O paciente deve ser selecionado!" filter="true" filterMatchMode="startsWith">
+                                <p:selectOneMenu id="selectvacina" value="#{vacinapacienteCrudMB.vacinaPaciente.vacina}" required="true" requiredMessage="A vacina deve ser selecionada!" filter="true" filterMatchMode="startsWith">
                                     <f:converter converterId="converterVacina"/>
                                     <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel="Selecione um registro"/>
-                                    <f:selectItems value="#{vacinapacienteCrudMB.vacinas}"
-                                                   var="vp" itemLabel="#{vp.nome}" itemValue="#{vp}"/>
+                                    <f:selectItems value="#{vacinapacienteCrudMB.vacinas}" var="vp" itemLabel="#{vp.nome}" itemValue="#{vp}"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>

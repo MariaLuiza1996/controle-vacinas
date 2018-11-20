@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo"> Listagem de Estoque</ui:define>
+        <ui:define name="conteudo">
+            <br/>
+            <h:form id="evForm">
+                <p:dataTable value="#{estoquevacinaCrudMB.estoqueVacinaList}" var="ev">
+                    
+                     <p:column headerText="Codigo">
+                        <h:outputText value="#{ev.itensNota.notafiscal.codnota}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Data da Nota">
+                        <h:outputText value="#{ev.itensNota.notafiscal.datanota}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Vacina">
+                        <h:outputText value="#{ev.vacina.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="Quantidade">
+                        <h:outputText value="#{ev.quantidade}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Validade">
+                        <h:outputText value="#{ev.itensNota.datavalidade}">
+                            <f:converter converterId="convertercalendar"/>
+                        </h:outputText>
+                    </p:column>
+                    
+                   <p:column headerText="Descriçao">
+                       <h:outputText value="#{ev.itensNota.descricao}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Valor">
+                        <h:outputText value="#{ev.itensNota.valor}"/>
+                    </p:column>
+
+                    <p:column headerText="Quantidade">
+                        <h:outputText value="#{ev.quantidade}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Lote">
+                        <h:outputText value="#{ev.itensNota.lotevacina}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>

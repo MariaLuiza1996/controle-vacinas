@@ -6,14 +6,14 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition template="/templates/template.xhtml">
-        <ui:define name="titulo"> Listagem de Estoque</ui:define>
+        <ui:define name="titulo"> Listagem de Pacientes</ui:define>
         <ui:define name="conteudo">
             <br/>
             <h:form id="notaForm" >
                 <p:panel header="Estoque" />
                 <div align="left" >
-                    
-                  <div class="ui-g-12">
+                    <div class="ui-g">
+                    <div class="ui-g-9">
                             <div>
                                 <h:outputLabel value="Unidade Basica de Saúde" for="selectubs"/>
                             </div>
@@ -27,15 +27,17 @@
                                 </p:selectOneMenu>
                             </div>
                         </div>
-
+                    </div>
                     <div class="ui-g">
                         <div class="ui-g-6">
                             <div>
-                                <p:outputLabel value="Itens" for="cod"/>
+                                <p:outputLabel value="Numero nota fiscal" for="cod"/>
                             </div>
                             <div>
                                 <p:inputText id="cod" value="#{estoquevacinaCrudMB.codNota}"
                                              required="true" requiredMessage="Obrigatorio!" />
+
+
                             </div>
                         </div>
                     </div>
@@ -70,20 +72,26 @@
                     </div>
                 </c:if>
 
-
             </h:form >
             <h:form id="evForm">
                 <p:dataTable value="#{estoquevacinaCrudMB.estoqueVacinaList}" var="ev">
-                    <p:column headerText="Codigo">
+                    
+                     <p:column headerText="Codigo">
                         <h:outputText value="#{ev.itensNota.notafiscal.codnota}"/>
                     </p:column>
                     
                     <p:column headerText="Vacina">
                         <h:outputText value="#{ev.vacina.nome}"/>
                     </p:column>
+
+                    <p:column headerText="Quantidade">
+                        <h:outputText value="#{ev.quantidade}"/>
+                    </p:column>
                     
                     <p:column headerText="Validade">
-                        <h:outputText value="#{ev.itensNota.datavalidade}"/>
+                        <h:outputText value="#{ev.itensNota.datavalidade}">
+                            <f:converter converterId="convertercalendar"/>
+                        </h:outputText>
                     </p:column>
                     
                    <p:column headerText="Descriçao">
@@ -100,10 +108,6 @@
                     
                     <p:column headerText="Lote">
                         <h:outputText value="#{ev.itensNota.lotevacina}"/>
-                    </p:column>
-                    
-                    <p:column headerText="Quantidade">
-                        <h:outputText value="#{ev.itensNota.descricao}"/>
                     </p:column>
 
                 </p:dataTable>

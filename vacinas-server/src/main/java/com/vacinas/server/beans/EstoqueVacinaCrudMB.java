@@ -57,6 +57,11 @@ public class EstoqueVacinaCrudMB implements Serializable {
         if (Objects.isNull(estoquevacina)) {
             estoquevacina = new EstoqueVacina();
         }
+        refreshUbs();
+    }
+    
+    public void refreshUbs(){
+        ubs= ubsServices.loadAllUnidadeBasicaSaudes();
     }
 
     public void save() throws IOException {
