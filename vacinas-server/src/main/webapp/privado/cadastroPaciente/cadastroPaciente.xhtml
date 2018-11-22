@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="titulo"> Listagem de Pacientes</ui:define>
+        <ui:define name="conteudo">
+            <h:form id="formedicao">
+                <p:panel header="Cadastro de Pacientes"/>
+
+                <c:if test="#{not empty cadastroPacienteMB.paciente.id}">
+                    <div align="left">
+
+                        <div class="ui-g">
+                            <div class="ui-g-9">
+                                <div>
+                                    <p:outputLabel value="Nome" for="nome"/>
+                                </div>
+                                <div>
+                                    <p:inputText id="nome" value="#{cadastroPacienteMB.paciente.nome}" maxlength="50"
+                                                 required="true" requiredMessage="Obrigatorio!" />
+                                </div>
+                            </div>
+
+                            <div class="ui-g-3">
+                                <div>
+                                    <h:outputLabel value="Sexo" for="selectsexo"/>
+                                </div>
+                                <div>
+                                    <p:selectOneMenu id="selectsexo" value="#{cadastroPacienteMB.paciente.sexo}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="Selecione o Sexo" noSelectionOption="true"/>
+                                        <f:selectItem itemValue="M" itemLabel="Masculino"/>
+                                        <f:selectItem itemValue="F" itemLabel="Feminino"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="ui-g">
+                            <div class="ui-g-4">
+                                <div>
+                                    <p:outputLabel value="CNS" for="cns"/>
+                                </div>
+                                <div>
+                                    <p:inputMask id="cns" value="#{cadastroPacienteMB.paciente.numcns}"
+                                                 mask="999999999999999" required="true" size="15"/>
+                                </div>
+                            </div>
+                            <div class="ui-g-4">
+                                <div>
+                                    <p:outputLabel value="CPF" for="cpf"/>
+                                </div>
+                                <div>
+                                    <p:inputMask id="cpf" value="#{cadastroPacienteMB.paciente.cpf}"
+                                                 mask="999.999.999-99" required="true" size="14"/>
+                                </div>
+                            </div>
+                            <div class="ui-g-4">
+                                <div>
+                                    <p:outputLabel value="Data Nascimento" for="datanasc"/>
+                                </div>
+                                <div>
+                                    <p:calendar id="datanasc" value="#{cadastroPacienteMB.paciente.datanasc}"
+                                                mask="true" pattern="dd/MM/yyyy" navigator="true" size="10" required="true" requiredMessage="A data de Nascimento deve ser informsda">
+                                        <f:converter converterId="convertercalendar"/>
+                                    </p:calendar>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ui-g">
+                            <div class="ui-g-3">
+                                <div>
+                                    <h:outputLabel value="Telefone" for="telefone"/>
+                                </div>
+                                <div>
+                                    <p:inputMask id="telefone" value="#{cadastroPacienteMB.paciente.telefone}"
+                                                 mask="(99)9999-9999" required="true" size="15" requiredMessage="O telefone deve ser informado"/>
+                                </div>
+                            </div>
+                            <div class="ui-g-3">
+                                <div>
+                                    <h:outputLabel value="Celular" for="celular"/>
+                                </div>
+                                <div>
+                                    <p:inputMask id="celular" value="#{cadastroPacienteMB.paciente.celular}"
+                                                 mask="(99)99999-9999" required="true" size="15" requiredMessage="O celular deve ser informado"/>
+                                </div>
+                            </div>
+                            <div class="ui-g-6">
+                                <div>
+                                    <h:outputLabel value="E-mail" for="email"/>
+                                </div>
+                                <div>
+                                    <p:inputText id="email" value="#{cadastroPacienteMB.paciente.email}"
+                                                 required="true" maxlength="50" requiredMessage="O email deve ser informsdo"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ui-g">
+
+                            <div class="ui-g-6">
+                                <div>
+                                    <p:outputLabel value="Rua" for="rua"/>
+
+                                </div>
+                                <div>
+                                    <p:inputText id="rua" value="#{cadastroPacienteMB.paciente.rua}"
+                                                 required="true" requiredMessage="A rua deve ser informada" />
+                                </div>
+                            </div>
+                            <div class="ui-g-2">
+                                <div>
+                                    <p:outputLabel value="Numero" for="numero"/>
+                                </div>
+                                <div>
+                                    <p:inputText id="numero" value="#{cadastroPacienteMB.paciente.numcasa}"
+                                                 required="true" />
+                                </div>
+                            </div>
+
+                            <div class="ui-g-4">
+                                <div>
+                                    <p:outputLabel value="Complemento" for="complemento"/>
+                                </div>
+                                <div>
+                                    <p:inputText id="complemento" value="#{cadastroPacienteMB.paciente.complemento}"
+                                                 />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ui-g">
+
+                            <div class="ui-g-3">
+                                <div>
+                                    <p:outputLabel value="Bairro" for="bairro"/>
+
+                                </div>
+                                <div>
+                                    <p:inputText id="bairro" value="#{cadastroPacienteMB.paciente.bairro}"
+                                                 required="true" />
+                                </div>
+                            </div>
+
+                            <div class="ui-g-3">
+                                <div>
+                                    <p:outputLabel value="Estado" for="selectEstado"/>
+                                </div>
+                                <div>
+                                    <p:selectOneMenu id="selectEstado" value="#{cadastroPacienteMB.selectedEstado}" required="true" requiredMessage="O Estado deve ser selecionado!">
+                                        <p:ajax event="change" listener="#{cadastroPacienteMB.refreshCidades()}" update="selectCidade"/>
+                                        <f:converter converterId="converterEstado"/>
+                                        <f:selectItem noSelectionOption="true" itemLabel="Selecione um registro"/>
+                                        <f:selectItems value="#{cadastroPacienteMB.estados}"
+                                                       var="e" itemLabel="#{e.uf}" itemValue="#{e}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+
+                            <div class="ui-g-3">
+                                <div>
+                                    <h:outputLabel value="Cidade" for="selectCidade"/>
+                                </div>
+                                <div>
+                                    <p:selectOneMenu id="selectCidade" value="#{cadastroPacienteMB.paciente.cidade}"
+                                                     required="true" requiredMessage="A Cidade deve ser selecionada!"
+                                                     disabled="#{empty cadastroPacienteMB.selectedEstado.id}">
+                                        <f:converter converterId="converterCidade"/>
+                                        <f:selectItem noSelectionOption="true" itemLabel="Selecione um registro"/>
+                                        <f:selectItems value="#{cadastroPacienteMB.cidades}"
+                                                       var="c" itemLabel="#{c.nome}" itemValue="#{c}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                    <div class="ui-g">
+                        <div class="ui-g-3">
+                            <div>
+                                <h:outputLabel value="Senha" for="senha1"/>
+                            </div>
+                            <div>
+                                <p:password id="senha1" value="#{cadastroPacienteMB.paciente.senha}" match="senha2"
+                                            validatorMessage="As senhas não coincidem!"/>
+                            </div>
+                        </div>
+                        <div class="ui-g-3">
+                            <div>
+                                <h:outputLabel value="Repetir Senha" for="senha2"/>
+                            </div>
+                            <div>
+                                <p:password id="senha2" value="#{cadastroPacienteMB.paciente.senha}"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr style="margin-top: 50px"/>
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <p:commandButton icon="ui-icon-disk" action="#{cadastroPacienteMB.update()}" value="Atualizar" update=":formedicao, mensagens" rendered="#{not empty cadastroPacienteMB.paciente.id}"/>
+                        </div>
+                    </div>
+                </c:if>
+                
+                <c:if test="#{empty cadastroPacienteMB.paciente.id}">
+                    <div align="left">
+                        <p:panel header="Cadastro Indisponível" >
+                            <h:outputText value="O cadastro de Pacientes somente pode ser acesso quando logado como um Paciente." style="color: red;"/>
+                        </p:panel>
+                    </div>
+                    
+                </c:if>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

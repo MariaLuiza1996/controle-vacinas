@@ -25,7 +25,7 @@ public class LoginCrudMB implements Serializable {
     private String login;
     private String senha;
     private boolean logado = false;
-    private boolean paciente = false;
+    private static boolean paciente = false;
 
     @Inject
     private PacienteServices pacienteServices;
@@ -132,6 +132,10 @@ public class LoginCrudMB implements Serializable {
 
     public static Object obterUsuarioLogado() {
         return usuarioLogado;
+    }
+    
+    public static Boolean isPacienteLogado(){
+        return paciente;
     }
 
 }

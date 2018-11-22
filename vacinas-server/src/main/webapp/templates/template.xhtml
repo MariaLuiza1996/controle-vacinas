@@ -36,7 +36,7 @@
                 <h:form>
                     <p:panelMenu>
                         <p:submenu label="Seu Cadastro" rendered="#{loginCrudMB.paciente}">
-                            <p:menuitem value="Cadastro" url="#"/>
+                            <p:menuitem value="Cadastro" action="/privado/cadastroPaciente/cadastroPaciente.xhtml?faces-redirect=true"/>
                         </p:submenu>
                         <p:submenu label="Cadastros" rendered="#{not loginCrudMB.paciente}">
                             <p:menuitem value="Pacientes" action="/privado/paciente/pacientes.xhtml?faces-redirect=true"/>
