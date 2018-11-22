@@ -18,7 +18,7 @@
                                 <h:outputLabel value="Unidade Basica de Saúde" for="selectubs"/>
                             </div>
                             <div>
-                                <p:selectOneMenu id="selectubs" value="#{estoquevacinaCrudMB.estoqueVacina.ubs}"
+                                <p:selectOneMenu id="selectubs" value="#{estoquevacinaCrudMB.selectedUBS}"
                                                  required="true" requiredMessage="O paciente deve ser selecionado!" filter="true" filterMatchMode="startsWith">
                                     <f:converter converterId="converterUnidadeBasicaSaude"/>
                                     <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel="Selecione um registro"/>
@@ -44,7 +44,8 @@
                     <div class="ui-g">
                         <div class="ui-g-4">
                             <div>
-                                <p:commandButton action="#{estoquevacinaCrudMB.buscarCodnota()}" value="Buscar" update="@form, evForm"/>
+                                <p:commandButton action="#{estoquevacinaCrudMB.buscarCodnota()}"
+                                                 value="Buscar" update="@form, evForm, mensagens"/>
                             </div>
                         </div>
 
@@ -115,7 +116,9 @@
                 <div class="ui-g">
                     <div class="ui-g-4">
                         <div>
-                            <p:commandButton action="#{estoquevacinaCrudMB.saveEV()}" value="Salvar Estoque" update="@form, notaForm"/>
+                            <p:commandButton id="salvarEstoque" action="#{estoquevacinaCrudMB.saveEV()}"
+                                             value="Salvar Estoque" update="@form, notaForm"
+                                             disabled="#{estoquevacinaCrudMB.estoqueVacinaList.size() eq 0 || empty estoquevacinaCrudMB.nota.id}"/>
                         </div>
                     </div>
 

@@ -44,6 +44,7 @@ public class VacinaPacienteCrudMB implements Serializable {
         vacinapaciente = (VacinaPaciente) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedVacinaPaciente");
         if (Objects.isNull(vacinapaciente)) {
             vacinapaciente = new VacinaPaciente();
+            vacinapaciente.setFuncionario((Funcionario) LoginCrudMB.obterUsuarioLogado());
         }
         refreshPacientes();
         refreshVacinas();
@@ -98,7 +99,7 @@ public class VacinaPacienteCrudMB implements Serializable {
     }
 
     public void redirectForVacinaPacientes() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("listar.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("vacinaspacientes.xhtml");
     }
     
     public void getVacinaPacienteForEdition(Integer id) {

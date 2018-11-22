@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -33,7 +34,8 @@ public class EstoqueVacinaCrudMB implements Serializable {
     private List<EstoqueVacina> estoque;
     private NotaFiscal nota;
     private List<UnidadeBasicaSaude> ubs;
-    Integer codNota;
+    private Integer codNota;
+    private UnidadeBasicaSaude selectedUBS;
 
     @Inject
     private EstoqueVacinaServices estoquevacinaServices;
@@ -59,9 +61,9 @@ public class EstoqueVacinaCrudMB implements Serializable {
         }
         refreshUbs();
     }
-    
-    public void refreshUbs(){
-        ubs= ubsServices.loadAllUnidadeBasicaSaudes();
+
+    public void refreshUbs() {
+        ubs = ubsServices.loadAllUnidadeBasicaSaudes();
     }
 
     public void save() throws IOException {
@@ -86,11 +88,18 @@ public class EstoqueVacinaCrudMB implements Serializable {
     public void buscarCodnota() {
 
         nota = notaServices.loadByNota(codNota);
-        //UnidadeBasicaSaude ubs = ubsServices.find(1);//Trocar para busca através de selectOneMenu
         estoqueVacinaList = new ArrayList<>();
-        for (ItensNota in : nota.getItens()) {
-            estoqueVacinaList.add(new EstoqueVacina(in));
+        if (estoquevacinaServices.checkNotaFiscal(nota.getId()).isEmpty()) {
+            for (ItensNota in : nota.getItens()) {
+                estoqueVacinaList.add(new EstoqueVacina(in));
+            }
+        } else {
+            nota = new NotaFiscal();
+            FacesContext
+                    .getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Esta Nota Fiscal já foi lançada no estoque!"));
         }
+
     }
 
     public void update() throws IOException {
@@ -184,17 +193,25 @@ public class EstoqueVacinaCrudMB implements Serializable {
     public void setUbs(List<UnidadeBasicaSaude> ubs) {
         this.ubs = ubs;
     }
-    
-    
 
-    public void saveEV() {
+    public void saveEV() throws IOException {
         for (EstoqueVacina ev : estoqueVacinaList) {
+            ev.setUbs(selectedUBS);
             estoquevacinaServices.save(ev);
         }
-        nota = new NotaFiscal();
-        estoqueVacinaList = new ArrayList<>();
-        codNota = null;
-        //ubs = new UnidadeBasicaSaude();
+        redirectPage();
+    }
+
+    public void redirectPage() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("estoquevacina.xhtml");
+    }
+
+    public UnidadeBasicaSaude getSelectedUBS() {
+        return selectedUBS;
+    }
+
+    public void setSelectedUBS(UnidadeBasicaSaude selectedUBS) {
+        this.selectedUBS = selectedUBS;
     }
 
 }

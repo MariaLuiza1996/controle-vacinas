@@ -21,7 +21,7 @@ import javax.inject.Inject;
 @SessionScoped
 public class LoginCrudMB implements Serializable {
 
-    private Object usuarioLogado;
+    private static Object usuarioLogado;
     private String login;
     private String senha;
     private boolean logado = false;
@@ -128,6 +128,10 @@ public class LoginCrudMB implements Serializable {
 
     public void setPaciente(boolean paciente) {
         this.paciente = paciente;
+    }
+
+    public static Object obterUsuarioLogado() {
+        return usuarioLogado;
     }
 
 }

@@ -13,12 +13,12 @@ import com.vacinas.lib.Vacina;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 @Stateless
 public class EstoqueVacinaDAO extends GenericDAO<EstoqueVacina> {
 
-    
     public EstoqueVacinaDAO() {
         super(EstoqueVacina.class);
     }
@@ -28,15 +28,22 @@ public class EstoqueVacinaDAO extends GenericDAO<EstoqueVacina> {
         q.setParameter("id", id);
         return q.getResultList().get(0);
     }
-    
+
     public List<ItensNota> loadByNota(Integer codnotaId) {
-         List<ItensNota> lista;
+        List<ItensNota> lista;
         TypedQuery<ItensNota> q = getEntityManager().createQuery("SELECT n FROM ItensNota n WHERE n.notafiscal.codnota =:codnotaId", ItensNota.class);
         q.setParameter("codnotaId", codnotaId);
-        lista= q.getResultList();
-        
+        lista = q.getResultList();
+
         return lista;
 
-}
+    }
+
+    public List<EstoqueVacina> loadByNotaFiscal(Integer id) {
+        TypedQuery<EstoqueVacina> q = getEntityManager().createQuery("SELECT ev FROM EstoqueVacina ev WHERE ev.itensNota.notafiscal.id = :id", EstoqueVacina.class);
+        q.setParameter("id", id);
+        return q.getResultList();
+
+    }
 
 }

@@ -18,13 +18,14 @@
                                 <h:outputLabel value="Funcionario" for="selectfuncionario"/>
                             </div>
                             <div>
-                                <p:selectOneMenu id="selectfuncionario" value="#{vacinapacienteCrudMB.vacinaPaciente.funcionario}"
+                                <p:inputText  value="#{vacinapacienteCrudMB.vacinaPaciente.funcionario.nome}" readonly="true"/>
+                                <!--<p:selectOneMenu id="selectfuncionario" value="#//{vacinapacienteCrudMB.vacinaPaciente.funcionario}"
                                                  required="true" requiredMessage="O funcionario deve ser selecionado!" filter="true" filterMatchMode="startsWith">
                                     <f:converter converterId="converterFuncionario"/>
-                                    <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel="Selecione um registro"/>
-                                    <f:selectItems value="#{vacinapacienteCrudMB.funcionarios}"
-                                                   var="vp" itemLabel="#{vp.nome}" itemValue="#{vp}"/>
-                                </p:selectOneMenu>
+                                    <f:selectItem noSelectionOption="true" itemValue="#//{null}" itemLabel="Selecione um registro"/>
+                                    <f:selectItems value="#//{vacinapacienteCrudMB.funcionarios}"
+                                                   var="vp" itemLabel="#//{vp.nome}" itemValue="#//{vp}"/>
+                                </p:selectOneMenu>-->
                             </div>
                         </div>
                         <div class="ui-g-12">
@@ -37,7 +38,7 @@
                                     <f:converter converterId="converterPaciente"/>
                                     <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel="Selecione um registro"/>
                                     <f:selectItems value="#{vacinapacienteCrudMB.pacientes}"
-                                                   var="vp" itemLabel="#{vp.numcns}" itemValue="#{vp}"/>
+                                                   var="vp" itemLabel="#{vp.numcns} - #{vp.nome}" itemValue="#{vp}"/>
                                 </p:selectOneMenu>
                             </div>
                         </div>
@@ -92,9 +93,14 @@
                              rowKey="#{vacinapacienteVar.id}">
 
 
-                    <p:column headerText="Paciente" filterBy="#{vacinapacienteVar.paciente}" sortBy="#{pacienteVar.nome}" filterMatchMode="contains">
+                    <p:column headerText="Paciente" filterBy="#{vacinapacienteVar.paciente.nome}" sortBy="#{vacinapacienteVar.paciente.nome}" filterMatchMode="contains">
                         <p:outputLabel value="#{vacinapacienteVar.paciente.nome}"/>
                     </p:column>
+                    
+                    <p:column headerText="Vacina" filterBy="#{vacinapacienteVar.vacina.nome}" sortBy="#{vacinapacienteVar.vacina.nome}" filterMatchMode="contains">
+                        <p:outputLabel value="#{vacinapacienteVar.vacina.nome}"/>
+                    </p:column>
+
 
                     <p:column headerText="Data Ministrada">
                         <p:outputLabel value="#{vacinapacienteVar.dataministrada}">

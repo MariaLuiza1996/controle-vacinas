@@ -49,5 +49,9 @@ public class EstoqueVacinaServices {
     public EstoqueVacina loadByVacina(Integer id){
         return estoquevacinaDAO.loadByVacina(id);
     }
+
+    public List<EstoqueVacina> checkNotaFiscal(Integer id) {
+        return estoquevacinaDAO.loadByNotaFiscal(id);
+    }
  
 }
