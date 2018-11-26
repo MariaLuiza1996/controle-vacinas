@@ -4,9 +4,11 @@ import com.vacinas.lib.Cidade;
 import com.vacinas.lib.Estado;
 import com.vacinas.lib.Paciente;
 import com.vacinas.lib.Vacina;
+import com.vacinas.lib.VacinaPaciente;
 import com.vacinas.services.CidadeServices;
 import com.vacinas.services.EstadoServices;
 import com.vacinas.services.PacienteServices;
+import com.vacinas.services.VacinaPacienteServices;
 import com.vacinas.services.VacinaServices;
 import com.vacinas.services.dao.VacinaDAO;
 import java.io.IOException;
@@ -27,7 +29,8 @@ public class CadastroPacienteMB implements Serializable {
     private List<Cidade> cidades;
     private Estado selectedEstado;
     private VacinaDAO dao;
-    private List<Vacina> vacinas;
+    private List<VacinaPaciente> vacinaspaciente;
+    private Vacina vacinapaciente;
 
     @Inject
     private PacienteServices pacienteServices;
@@ -39,18 +42,23 @@ public class CadastroPacienteMB implements Serializable {
     private CidadeServices cidadeServices;
 
     @Inject
-    private VacinaServices vacinaServices;
+    private VacinaPacienteServices vacinaPacienteServices;
 
     @PostConstruct
     public void init() {
         if (LoginCrudMB.isPacienteLogado()) {
             paciente = (Paciente) LoginCrudMB.obterUsuarioLogado();
+            refreshVacina();
             refreshEstados();
             selectedEstado = paciente.getCidade().getEstado();
             refreshCidades();
         } else {
             paciente = new Paciente();
         }
+    }
+    
+    public void refreshVacina() {
+        vacinaspaciente = vacinaPacienteServices.loadAllVacinaPacientes();
     }
 
     public void refreshEstados() {
@@ -124,6 +132,22 @@ public class CadastroPacienteMB implements Serializable {
 
     public void setSelectedEstado(Estado selectedEstado) {
         this.selectedEstado = selectedEstado;
+    }
+
+    public List<VacinaPaciente> getVacinaspaciente() {
+        return vacinaspaciente;
+    }
+
+    public void setVacinaspaciente(List<VacinaPaciente> vacinaspaciente) {
+        this.vacinaspaciente = vacinaspaciente;
+    }
+
+    public Vacina getVacinapaciente() {
+        return vacinapaciente;
+    }
+
+    public void setVacinapaciente(Vacina vacinapaciente) {
+        this.vacinapaciente = vacinapaciente;
     }
 
 }

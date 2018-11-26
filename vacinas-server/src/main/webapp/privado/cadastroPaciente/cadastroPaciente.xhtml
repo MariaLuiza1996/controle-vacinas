@@ -181,7 +181,7 @@
                             </div>
                         </div>
 
-                        </div>
+                    </div>
                     <div class="ui-g">
                         <div class="ui-g-3">
                             <div>
@@ -202,6 +202,27 @@
                         </div>
                     </div>
 
+                    <p:panel header="Vacinas Recebidas"/>
+                    <p:dataTable value="#{cadastroPacienteMB.vacinaspaciente}" var="cadastroVar" id="listagem"
+                                 paginator="true" emptyMessage="Nenhum registro encontrado" rows="4"
+                                 >
+                        <p:column headerText="Nome vacina">
+                            <p:outputLabel value="#{cadastroVar.vacina.nome}">
+                              
+                            </p:outputLabel>
+                        </p:column>
+                        
+                         <p:column headerText="Data Ministrada">
+                             <p:outputLabel value="#{cadastroVar.dataministrada}">
+                              
+                            </p:outputLabel>
+                        </p:column>
+                        
+                        
+                        
+
+                    </p:dataTable>
+
 
                     <hr style="margin-top: 50px"/>
                     <div class="ui-g">
@@ -210,14 +231,14 @@
                         </div>
                     </div>
                 </c:if>
-                
+
                 <c:if test="#{empty cadastroPacienteMB.paciente.id}">
                     <div align="left">
                         <p:panel header="Cadastro Indisponível" >
                             <h:outputText value="O cadastro de Pacientes somente pode ser acesso quando logado como um Paciente." style="color: red;"/>
                         </p:panel>
                     </div>
-                    
+
                 </c:if>
             </h:form>
         </ui:define>

@@ -53,6 +53,15 @@ public class NotaFiscalCrudMB implements Serializable {
         redirectForNotaFiscals();
         notafiscal = new NotaFiscal();
     }
+    
+    public void saveItens(NotaFiscal nf, ItensNota itensNota) throws IOException {
+        notafiscalServices.save(notafiscal);
+       // for(ItensNota in: itensNota.getNotafiscal() ){
+            //in.setNotafiscal(nf);
+           // itensServices.save(in);
+        }
+    
+    
 
     public void getNotaFiscalForEdition(Integer id) {
         notafiscal = notafiscalServices.find(id);

@@ -1,6 +1,7 @@
 package com.vacinas.server.beans;
 
 import com.vacinas.lib.Paciente;
+import com.vacinas.lib.VacinaPaciente;
 import com.vacinas.services.PacienteServices;
 import java.io.IOException;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class PacienteMB implements Serializable {
 
     private Paciente paciente = new Paciente();
     private List<Paciente> pacientes = new ArrayList<>();
+    private List<VacinaPaciente> vacinasPacientes;
     EntityManager em;
 
     @Inject
@@ -86,4 +88,14 @@ public class PacienteMB implements Serializable {
         query.setParameter("usuario", usuario.toUpperCase());
         return (Paciente) query.getSingleResult();
     }
+
+    public List<VacinaPaciente> getVacinasPacientes() {
+        return vacinasPacientes;
+    }
+
+    public void setVacinasPacientes(List<VacinaPaciente> vacinasPacientes) {
+        this.vacinasPacientes = vacinasPacientes;
+    }
+    
+    
 }
