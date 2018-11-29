@@ -26,6 +26,8 @@ public class FuncionarioCrudMB implements Serializable {
     private Funcionario funcionario;
     private List<Paciente> pacientes;
     private List<Vacina> vacinas;
+    
+    @Inject
     private VacinaDAO daovacina;
 
     @Inject
@@ -42,7 +44,7 @@ public class FuncionarioCrudMB implements Serializable {
         funcionario = (Funcionario) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedFuncionario");
         if (Objects.isNull(funcionario)) {
             funcionario = new Funcionario();
-            daovacina = new VacinaDAO();
+//            daovacina = new VacinaDAO();
         }
     }
     

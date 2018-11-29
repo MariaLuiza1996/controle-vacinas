@@ -15,8 +15,8 @@ public class VacinaDAO extends GenericDAO<Vacina>{
     
     public VacinaDAO() {
         super(Vacina.class);
-        classePersistente = Vacina.class;
-        ordem = "nome";
+//        classePersistente = Vacina.class;
+//        ordem = "nome";
     }
 
     public List<Vacina> loadVacinasByQuantidade() {
