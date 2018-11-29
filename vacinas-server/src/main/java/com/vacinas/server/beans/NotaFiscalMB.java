@@ -11,8 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 @Named(value = "notafiscalMB")
 @ViewScoped
@@ -20,7 +18,6 @@ public class NotaFiscalMB implements Serializable {
 
     private NotaFiscal notafiscal = new NotaFiscal();
     private List<NotaFiscal> notafiscals = new ArrayList<>();
-    EntityManager em;
 
     @Inject
     private NotaFiscalServices notafiscalServices;

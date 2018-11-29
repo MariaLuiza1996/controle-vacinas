@@ -28,7 +28,7 @@ public class ItensNotaDAO extends GenericDAO<ItensNota>{
     }
     
      public List<ItensNota> loadByNota(Integer codnotaId) {
-        TypedQuery<ItensNota> q = getEntityManager().createQuery ("SELECT n FROM ItensNota n WHERE n.notafiscal.codnota =: codnotaId",ItensNota.class );
+        TypedQuery<ItensNota> q = getEntityManager().createQuery ("SELECT n FROM ItensNota n WHERE n.notafiscal.codnota = :codnotaId", ItensNota.class );
         q.setParameter("codnotaId", codnotaId);
         return q.getResultList();
 }

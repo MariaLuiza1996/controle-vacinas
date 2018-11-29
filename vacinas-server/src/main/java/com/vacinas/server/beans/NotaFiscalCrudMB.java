@@ -3,7 +3,9 @@ package com.vacinas.server.beans;
 import com.vacinas.lib.ItensNota;
 import com.vacinas.lib.NotaFiscal;
 import com.vacinas.lib.Vacina;
+import com.vacinas.services.ItensNotaServices;
 import com.vacinas.services.NotaFiscalServices;
+import com.vacinas.services.VacinaServices;
 import com.vacinas.services.dao.NotaFiscalDAO;
 import java.io.IOException;
 import java.io.Serializable;
@@ -36,16 +38,22 @@ public class NotaFiscalCrudMB implements Serializable {
     private NotaFiscalServices notaServices;
 
     @Inject
-    private NotaFiscalServices itensServices;
+    private VacinaServices vacinaServices;
+
+    @Inject
+    ItensNotaServices itensNotaServices;
 
     @PostConstruct
     public void init() {
+        item = new ItensNota();
+        notas = notafiscalServices.loadAllNotaFiscals();
+        vacinas = vacinaServices.loadAllVacinas();
         notafiscal = (NotaFiscal) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedNotaFiscal");
         if (Objects.isNull(notafiscal)) {
             notafiscal = new NotaFiscal();
+        } else {
+            refreshItensNota();
         }
-
-        //refreshNotas();
     }
 
     public void save() throws IOException {
@@ -53,15 +61,10 @@ public class NotaFiscalCrudMB implements Serializable {
         redirectForNotaFiscals();
         notafiscal = new NotaFiscal();
     }
-    
+
     public void saveItens(NotaFiscal nf, ItensNota itensNota) throws IOException {
         notafiscalServices.save(notafiscal);
-       // for(ItensNota in: itensNota.getNotafiscal() ){
-            //in.setNotafiscal(nf);
-           // itensServices.save(in);
-        }
-    
-    
+    }
 
     public void getNotaFiscalForEdition(Integer id) {
         notafiscal = notafiscalServices.find(id);
@@ -169,16 +172,25 @@ public class NotaFiscalCrudMB implements Serializable {
     }
 
     public void addItemNota() {
-        itensNota.add(item);
-        item = null;
+        item.setNotafiscal(notafiscal);
+        itensNotaServices.save(item);
+        refreshItensNota();
+        newItemNota();
     }
 
     public void updateItemNota() {
-
+        itensNotaServices.update(item);
+        refreshItensNota();
+        newItemNota();
     }
 
     public void deleteItemNota() {
-        itensNota.remove(item);
-        item = null;
+        itensNotaServices.delete(item.getId());
+        newItemNota();
+    }
+
+    public void refreshItensNota() {
+        notafiscal = notafiscalServices.find(notafiscal.getId());
+        itensNota = notafiscal.getItens();
     }
 }

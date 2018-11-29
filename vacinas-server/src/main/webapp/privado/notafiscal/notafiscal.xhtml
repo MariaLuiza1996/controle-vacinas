@@ -11,31 +11,59 @@
         <ui:define name="conteudo">
 
             <h:form id="formedicao">
-                <p:panel header="Cadastro de Notas Fiscais"/>
-                <div align="left">
+                <div class="ui-g">
+                    <div class="ui-g-3">
+                        <p:panel header="Cadastro de Notas Fiscais">
+                            <div align="left">
 
-                    <div class="ui-g">
-                        <div class="ui-g-12">
-                            <div>
-                                <p:outputLabel value="Codigo da Nota" for="cod"/>
-                            </div>
-                            <div>
-                                <p:inputText id="cod" value="#{notafiscalCrudMB.notafiscal.codnota}" maxlength="50"
-                                             required="true" requiredMessage="O codigo da nota fiscal deve ser informado" />
-                            </div>
-                        </div>
+                                <div class="ui-g">
+                                    <div class="ui-g-12">
+                                        <div>
+                                            <p:outputLabel value="Codigo da Nota" for="cod"/>
+                                        </div>
+                                        <div>
+                                            <p:inputText id="cod" value="#{notafiscalCrudMB.notafiscal.codnota}" maxlength="50"
+                                                         required="true" requiredMessage="O codigo da nota fiscal deve ser informado" />
+                                        </div>
+                                    </div>
 
-                        <div class="ui-g-6">
-                            <div>
-                                <h:outputLabel value="Data da Nota" for="datan"/>
+                                    <div class="ui-g-6">
+                                        <div>
+                                            <h:outputLabel value="Data da Nota" for="datan"/>
+                                        </div>
+                                        <div>
+                                            <p:calendar id="datan" value="#{notafiscalCrudMB.notafiscal.datanota}"
+                                                        mask="true" pattern="dd/MM/yyyy" navigator="true" size="10" required="true" requiredMessage="O data da nota deve ser informada">
+                                                <f:converter converterId="convertercalendar" />
+                                            </p:calendar>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <p:calendar id="datan" value="#{notafiscalCrudMB.notafiscal.datanota}"
-                                            mask="true" pattern="dd/MM/yyyy" navigator="true" size="10" required="true" requiredMessage="O data da nota deve ser informada">
-                                            <f:converter converterId="convertercalendar" />
-                                </p:calendar>
-                            </div>
-                        </div>
+                        </p:panel>
+                    </div>
+                    <div class="ui-g-9">
+                        <p:dataTable value="#{notafiscalCrudMB.itensNota}" var="i">
+                            <f:facet name="header">
+                                Itens da Nota Fiscal
+                            </f:facet>
+
+                            <p:column headerText="Vacina">
+                                <h:outputText value="#{i.vacina.nome}"/>
+                            </p:column>
+
+                            <p:column headerText="Quantidade">
+                                <h:outputText value="#{i.quantidade}"/>
+                            </p:column>
+
+                            <p:column headerText="Valor">
+                                <h:outputText value="#{i.valor}"/>
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                        <p:commandButton value="Adicionar Item da Nota" actionListener="#{notafiscalCrudMB.newItemNota()}" onclick="PF('itemNotaDlg').show()" disabled="#{empty notafiscalCrudMB.notaFiscal.id}"/><p:commandButton value="Excluir"/>
                     </div>
                 </div>
                 <hr style="margin-top: 50px"/>
@@ -50,59 +78,115 @@
                 <br/>
 
             </h:form>
-            
+
             <h:form id="itensNotaCommands">
-                
-                <!-- ADICIONAR <p:commandButton onclick="PF('itemNotaDlg.show()')" action="#//{notafiscalCrudMB.newItemNota()}" -->
-                <!-- REMOVER -->
-                <!-- EDITAR -->
-                
+
             </h:form>
-            
+
             <h:form id="itensNotaForm">
                 <p:dataTable id="itensNotaTable" value="#{notafiscalCrudMB.itensNota}" var="i"
-                             selection="#{notafiscalCrudMB.item}" selectionMode="single">
+                             selection="#{notafiscalCrudMB.item}" selectionMode="single"
+                             rowKey="#{i.id}">
+
                     <p:column headerText="Vacina">
                         <h:outputText value="#{i.vacina.nome}"/>
                     </p:column>
                     <p:column headerText="Valor">
                         <h:outputText value="#{i.valor}"/>
                     </p:column>
-                    
-                    <!-- ... -->
-                    
                 </p:dataTable>
             </h:form>
 
             <h:form id="comandos">
-                <p:commandButton id="editButton" action="#{notafiscalCrudMB.getNotaFiscalForEdition(notafiscalMB.notaFiscal.id)}" value="Editar" disabled="#{empty notafiscalMB.notaFiscal.id}"
+                <p:commandButton id="editButton" action="#{notafiscalCrudMB.getNotaFiscalForEdition(notafiscalCrudMB.notaFiscal.id)}" value="Editar" disabled="#{empty notafiscalCrudMB.notaFiscal.id}"
                                  icon="ui-icon-pencil" update=":formedicao"/>
-                <p:commandButton action="#{notafiscalCrudMB.delete(notafiscalMB.notaFiscal.id)}" value="Excluir" icon="ui-icon-trash" disabled="#{empty notafiscalMB.notaFiscal.id}" onclick="if (!confirm('Confirma a exclusão?'))
+                <p:commandButton action="#{notafiscalCrudMB.delete(notafiscalCrudMB.notaFiscal.id)}" value="Excluir" icon="ui-icon-trash" disabled="#{empty notafiscalCrudMB.notaFiscal.id}" onclick="if (!confirm('Confirma a exclusão?'))
                             return false" update="@form"/>
             </h:form>
 
             <h:form id="formlistagem">
                 <p:panel header="Listagem Notas Fiscais"/>
-                <p:dataTable value="#{notafiscalMB.notaFiscals}" var="notafiscalVar" id="listagem"
+                <p:dataTable value="#{notafiscalCrudMB.notas}" var="notafiscalVar" id="listagem"
                              paginator="true" emptyMessage="Nenhum registro encontrado" rows="4"
-                             selection="#{notafiscalMB.notaFiscal}" selectionMode="single" 
-                             rowKey="#{notafiscalVar.id}"
-                             >
-
-                    <p:ajax event="rowSelect" process="@this" update="comandos"/>
-
+                             selection="#{notafiscalCrudMB.notaFiscal}" selectionMode="single" 
+                             rowKey="#{notafiscalVar.id}">
+                    <p:ajax event="rowSelect" process="@this" update="comandos, formedicao" listener="#{notafiscalCrudMB.refreshItensNota()}"/>
                     <p:column headerText="Codigo da Nota Fiscal" filterBy="#{notafiscalVar.codnota}" sortBy="#{notafiscalVar.codnota}" filterMatchMode="contains">
                         <p:outputLabel value="#{notafiscalVar.codnota}"/>
-
-
                     </p:column>
-
                     <p:column headerText="Data" filterBy="#{notafiscalVar.datanota}" sortBy="#{notafiscalVar.datanota}" filterMatchMode="contains">
                         <p:outputLabel value="#{notafiscalVar.datanota}">
-                        <f:converter converterId="convertercalendar"/>
+                            <f:converter converterId="convertercalendar"/>
                         </p:outputLabel>
                     </p:column>
                 </p:dataTable>
+            </h:form>
+
+            <h:form id="itemForm">
+                <p:dialog header="Item da Nota" widgetVar="itemNotaDlg" width="500">
+                    <div class="ui-g">
+
+                        <div class="ui-g-12">
+                            <p:outputLabel value="Vacina"/>
+                            <p:selectOneMenu value="#{notafiscalCrudMB.item.notafiscal}">
+                                <f:selectItem itemLabel="Selecione uma Vacina" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{notafiscalCrudMB.vacinas}" var="v" itemValue="#{v}" itemLabel="#{v.nome}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="ui-g-8">
+                            <div>
+                                <p:outputLabel value="Descrição"/>
+                            </div>
+                            <div>
+                                <p:inputText value="#{notafiscalCrudMB.item.descricao}"/>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-4">
+                            <div>
+                                <p:outputLabel value="Valor"/>
+                            </div>
+                            <div>
+                                <p:inputText value="#{notafiscalCrudMB.item.valor}" required="true" requiredMessage="Informar"/>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-4">
+                            <div>
+                                <p:outputLabel value="Lote"/>
+                            </div>
+                            <div>
+                                <p:inputText value="#{notafiscalCrudMB.item.lotevacina}"/>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-4">
+                            <div>
+                                <p:outputLabel value="Quantidade"/>
+                            </div>
+                            <div>
+                                <p:inputText value="#{notafiscalCrudMB.item.quantidade}"/>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-4">
+                            <div>
+                                <p:outputLabel value="Data Validade"/>
+                            </div>
+                            <div>
+                                <p:calendar value="#{notafiscalCrudMB.item.datavalidade}"
+                                            mask="true" pattern="dd/MM/yyyy" navigator="true" size="10" required="true" requiredMessage="O data da nota deve ser informada">
+                                    <f:converter converterId="convertercalendar" />
+                                </p:calendar>
+                            </div>
+                        </div>
+                    </div>
+                    <p:commandButton value="Salvar Item" process="@form" rendered="#{empty notafiscalCrudMB.item.id}" immediate="true" >
+                        <p:ajax event="click" process="@form" listener="#{notafiscalCrudMB.addItemNota()}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Atualizar" process="@form" rendered="#{not empty notafiscalCrudMB.item.id}" immediate="true" action="#{notafiscalCrudMB.deleteItemNota()}" />
+                    <p:commandButton value="Deletar" immediate="true" action="#{notafiscalCrudMB.deleteItemNota()}" />
+                </p:dialog>
             </h:form>
         </ui:define>
     </ui:composition>
