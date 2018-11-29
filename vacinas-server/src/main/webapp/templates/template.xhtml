@@ -40,11 +40,11 @@
                         </p:submenu>
                         <p:submenu label="Cadastros" rendered="#{not loginCrudMB.paciente}">
                             <p:menuitem value="Pacientes" action="/privado/paciente/pacientes.xhtml?faces-redirect=true"/>
-                            <p:menuitem value="Funcionarios" action="/privado/funcionario/funcionarios.xhtml?faces-redirect=true"/>
+                            <p:menuitem value="Funcionarios" rendered="#{loginCrudMB.administrador}" action="/privado/funcionario/funcionarios.xhtml?faces-redirect=true"/>
                             <p:menuitem value="Unidade Basica de Saúde" action="/privado/ubs/ubs.xhtml?faces-redirect=true"/>
                         </p:submenu>
                         <p:submenu label="Vacinas" rendered="#{not loginCrudMB.paciente}">
-                            <p:menuitem value="Vacinas" action="/privado/vacina/vacinas.xhtml?faces-redirect=true"/>
+                            <p:menuitem value="Vacinas" rendered="#{loginCrudMB.administrador}" action="/privado/vacina/vacinas.xhtml?faces-redirect=true"/>
                             <p:menuitem value="Ministrar Vacinas" action="/privado/vacinapaciente/vacinaspacientes.xhtml?faces-redirect=true"/>
                             <p:menuitem value="Nota Fiscal" action="/privado/notafiscal/notafiscal.xhtml?faces-redirect=true"/>
                             <p:menuitem value="Ministrar Estoque" action="/privado/estoque/estoquevacina.xhtml?faces-redirect=true"/>

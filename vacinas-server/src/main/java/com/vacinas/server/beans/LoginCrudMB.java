@@ -5,9 +5,9 @@
  */
 package com.vacinas.server.beans;
 
+import com.vacinas.lib.Funcionario;
 import com.vacinas.services.FuncionarioServices;
 import com.vacinas.services.PacienteServices;
-import com.vacinas.services.dao.PacienteDAO;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
@@ -26,6 +26,7 @@ public class LoginCrudMB implements Serializable {
     private String senha;
     private boolean logado = false;
     private static boolean paciente = false;
+    private boolean administrador = false;
 
     @Inject
     private PacienteServices pacienteServices;
@@ -42,26 +43,25 @@ public class LoginCrudMB implements Serializable {
 
     public String efetuarLogin() {
         if (!logado) {
-            if (paciente) {
-                usuarioLogado = pacienteServices.login(login, senha);
-                if (Objects.isNull(usuarioLogado)) {
-                    FacesContext
-                            .getCurrentInstance()
-                            .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Usuário ou senha inválidos! Tente novamente..."));
-                } else {
-                    logado = true;
-                    return "/index?faces-redirect=true";
-                }
-            } else {
+            usuarioLogado = pacienteServices.login(login, senha);
+            if (Objects.isNull(usuarioLogado)) {
                 usuarioLogado = funcionarioServices.login(login, senha);
                 if (Objects.isNull(usuarioLogado)) {
                     FacesContext
                             .getCurrentInstance()
                             .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Usuário ou senha inválidos! Tente novamente..."));
                 } else {
+                    Funcionario f = (Funcionario) usuarioLogado;
+                    administrador = f.getAdmin();
+                    paciente = false;
                     logado = true;
                     return "/index?faces-redirect=true";
                 }
+            } else {
+                paciente = true;
+                administrador = false;
+                logado = true;
+                return "/index?faces-redirect=true";
             }
         }
         return "";
@@ -71,6 +71,7 @@ public class LoginCrudMB implements Serializable {
         usuarioLogado = null;
         logado = false;
         paciente = false;
+        administrador = false;
         login = null;
         senha = null;
         return "/index?faces-redirect=true";
@@ -133,9 +134,17 @@ public class LoginCrudMB implements Serializable {
     public static Object obterUsuarioLogado() {
         return usuarioLogado;
     }
-    
-    public static Boolean isPacienteLogado(){
+
+    public static Boolean isPacienteLogado() {
         return paciente;
+    }
+
+    public Boolean getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(boolean administrador) {
+        this.administrador = administrador;
     }
 
 }
